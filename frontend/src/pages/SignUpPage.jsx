@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function SignupPage() {
+function SignUpPage() {
 
   const [formData, setFormData] = useState({
     username: '',
@@ -155,4 +155,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default SignUpPage;
