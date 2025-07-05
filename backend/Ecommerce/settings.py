@@ -152,7 +152,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://ecommercegovind.netlify.app/"
+    "https://ecommercegovind.netlify.app"
 ]
 
 
