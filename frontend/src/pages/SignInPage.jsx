@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/axiosConfig';
 
 function SignInPage() {
 
@@ -11,7 +11,6 @@ function SignInPage() {
   });
   const navigate = useNavigate()
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -28,7 +27,7 @@ function SignInPage() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
+      const response = await api.post('/token/', {
         username: formData.username,
         password: formData.password,
       });

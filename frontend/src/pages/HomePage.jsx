@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import api from '../api/axiosConfig';
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -10,7 +10,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/products/');
+        const response = await api.get('/products/');
         setProducts(response.data);
       } catch (err) {
         setError('Failed to fetch products. The server might be down.');

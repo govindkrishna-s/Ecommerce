@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axiosConfig';
 
 export default function OrderPage() {
-  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,12 +21,6 @@ export default function OrderPage() {
     };
     fetchOrders();
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    navigate('/signin');
-  };
   
   if (loading) return <div className="text-center p-10 text-white">Loading your orders...</div>;
   if (error) return <div className="text-center text-red-500 p-10">{error}</div>;
