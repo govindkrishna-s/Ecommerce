@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
+
 
 class User(AbstractUser):
     phone=models.CharField(max_length=15)
@@ -75,3 +75,17 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
+    
+class WishlistItem(models.Model):
+    """
+    A model that links a User to a Product they have wishlisted.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f'{self.user.username} wishes for {self.product.name}'

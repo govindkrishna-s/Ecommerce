@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Product, Order, OrderItem, ShippingAddress
+from .models import User, Product, Order, OrderItem, ShippingAddress, WishlistItem
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,9 +25,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress
-        exclude = ['customer', 'order'] # Exclude fields we don't need to show
+        exclude = ['customer', 'order']
 
-# --- THIS IS THE CORRECTED ORDER SERIALIZER ---
+
 class OrderSerializer(serializers.ModelSerializer):
     orderitems = OrderItemSerializer(many=True, read_only=True, source='orderitem_set')
     shipping_address = serializers.SerializerMethodField()
@@ -42,10 +42,16 @@ class OrderSerializer(serializers.ModelSerializer):
         ]
 
     def get_shipping_address(self, obj):
-        # An order can have multiple shipping addresses based on your models.
-        # This safely gets the first one.
+
         try:
             address = obj.shippingaddress_set.first()
             return ShippingAddressSerializer(address).data
         except:
             return None
+        
+class WishlistItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    
+    class Meta:
+        model = WishlistItem
+        fields = ['id', 'product']

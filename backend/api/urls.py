@@ -11,4 +11,7 @@ urlpatterns = [
     path('process-order/', views.ProcessOrderView.as_view(), name='api_process_order'),
     path('payment/start/', views.start_payment, name='start-payment'),
     path('payment/success/', views.handle_payment_success, name='handle-payment-success'),
+    path('wishlist/', views.WishlistListView.as_view(), name='get-wishlist'),
+    path('wishlist/add/', views.WishlistAddView.as_view(), name='add-to-wishlist'),
+    path('wishlist/remove/', views.WishlistRemoveView.as_view(), name='remove-from-wishlist')
 ]

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { WishlistProvider } from './context/WishlistContext';
+import { useWishlist, WishlistProvider } from './context/WishlistContext';
 import { CartProvider, useCart } from './context/CartContext';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
@@ -17,18 +17,19 @@ function ProtectedRoute({ children }) {
 }
 
 
-function InitialCartFetcher() {
+function InitialDataFetcher() {
     const { fetchCart } = useCart();
+    const { fetchWishlist } = useWishlist();
     const token = localStorage.getItem('accessToken');
 
     useEffect(() => {
-        
         if (token) {
             fetchCart();
+            fetchWishlist();
         }
-    }, [token, fetchCart]);
+    }, [token, fetchCart, fetchWishlist]);
 
-    return null; 
+    return null;
 }
 
 
@@ -37,7 +38,7 @@ export default function App() {
     <WishlistProvider>
       <CartProvider>
         <BrowserRouter>
-          <InitialCartFetcher />
+          <InitialDataFetcher />
           <Layout>
             <Routes>
               <Route path="/" element={<HomePage />} />

@@ -1,4 +1,5 @@
-import { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
+import api from '../api/axiosConfig';
 
 const WishlistContext = createContext();
 
@@ -7,38 +8,56 @@ export function useWishlist() {
 }
 
 export function WishlistProvider({ children }) {
-  const [wishlist, setWishlist] = useState(() => {
-    try {
-      const storedWishlist = localStorage.getItem('wishlist');
-      return storedWishlist ? JSON.parse(storedWishlist) : [];
-    } catch (error) {
-      console.error("Failed to parse wishlist from localStorage", error);
-      return [];
+  const [wishlist, setWishlist] = useState([]);
+
+  const fetchWishlist = useCallback(async () => {
+    if (!localStorage.getItem('accessToken')) {
+        setWishlist([]);
+        return;
     }
-  });
-
-  useEffect(() => {
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  }, [wishlist]);
-
-  const addToWishlist = useCallback((product) => {
-    setWishlist((prev) => [...prev, product]);
+    try {
+      const { data } = await api.get('/wishlist/');
+      setWishlist(data || []);
+    } catch (error) {
+      console.error("Failed to fetch wishlist", error);
+      setWishlist([]); // Clear wishlist on error
+    }
   }, []);
 
-  const removeFromWishlist = useCallback((productId) => {
-    setWishlist((prev) => prev.filter((item) => item.id !== productId));
-  }, []);
+  const addToWishlist = useCallback(async (product) => {
+    try {
+      await api.post('/wishlist/add/', { product_id: product.id });
+      await fetchWishlist(); // Refetch to sync state
+    } catch (error) {
+      console.error("Failed to add to wishlist", error);
+    }
+  }, [fetchWishlist]);
 
- 
+  const removeFromWishlist = useCallback(async (productId) => {
+    try {
+      await api.post('/wishlist/remove/', { product_id: productId });
+      await fetchWishlist(); // Refetch to sync state
+    } catch (error) {
+      console.error("Failed to remove from wishlist", error);
+    }
+  }, [fetchWishlist]);
+
   const isInWishlist = useCallback((productId) => {
-    return wishlist.some((item) => item.id === productId);
+    // Check against the product object nested in the wishlist item
+    return wishlist.some((item) => item.product.id === productId);
   }, [wishlist]);
+
+  const clearWishlist = useCallback(() => {
+    setWishlist([]);
+  }, []);
 
   const value = {
     wishlist,
+    fetchWishlist,
     addToWishlist,
     removeFromWishlist,
     isInWishlist,
+    clearWishlist,
   };
 
   return (

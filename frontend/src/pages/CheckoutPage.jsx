@@ -123,9 +123,9 @@ export default function CheckoutPage() {
         </div>
         <div className="bg-black p-8 rounded-lg h-fit">
           <h2 className="text-white text-3xl font-bold mb-6">Your Order</h2>
-          <div className="text-white space-y-4 mb-6">{cartItems.map(item => (<div key={item.id} className="flex justify-between items-center"><div className="flex items-center"><img src={item.product.image || 'https://placehold.co/50x50'} alt={item.product.name} className="w-16 h-16 object-cover rounded-md mr-4"/><div className="w-40"><p className="font-semibold truncate">{item.product.name}</p><p className="text-sm text-gray-300">Qty: {item.quantity}</p></div></div><p>${(item.product.price * item.quantity).toFixed(2)}</p></div>))}</div>
+          <div className="text-white space-y-4 mb-6">{cartItems.map(item => (<div key={item.id} className="flex justify-between items-center"><div className="flex items-center"><img src={item.product.image || 'https://placehold.co/50x50'} alt={item.product.name} className="w-16 h-16 object-cover rounded-md mr-4"/><div className="w-40"><p className="font-semibold truncate">{item.product.name}</p><p className="text-sm text-gray-300">Qty: {item.quantity}</p></div></div><p>Rs {(item.product.price * item.quantity).toFixed(2)}</p></div>))}</div>
           <hr className="border-gray-400 my-4" />
-          <div className="text-white flex justify-between text-xl font-bold"><span>Total</span><span>${cartTotal.toFixed(2)}</span></div>
+          <div className="text-white flex justify-between text-xl font-bold"><span>Total</span><span>Rs {cartTotal.toFixed(2)}</span></div>
           {error && <p className="text-red-500 text-center mt-4 text-sm">{error}</p>}
           <button onClick={handlePayment} className="w-full bg-cyan-600 text-white font-bold p-4 rounded-md hover:bg-cyan-700 transition mt-8 disabled:bg-slate-500 disabled:cursor-not-allowed" disabled={loading || !isRazorpayReady}>
             {loading ? 'Processing...' : (isRazorpayReady ? 'Proceed to Payment' : 'Loading Gateway...')}

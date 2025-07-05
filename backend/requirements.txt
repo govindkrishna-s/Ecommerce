@@ -1,8 +1,10 @@
 asgiref==3.8.1
 certifi==2025.6.15
 charset-normalizer==3.4.2
+cloudinary==1.44.1
 dj-database-url==3.0.1
 Django==5.2.2
+django-cloudinary-storage==0.3.0
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
@@ -16,6 +18,7 @@ python-decouple==3.8
 razorpay==1.4.2
 requests==2.32.4
 setuptools==80.9.0
+six==1.17.0
 sqlparse==0.5.3
 tzdata==2025.2
 urllib3==2.4.0
