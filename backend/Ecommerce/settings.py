@@ -173,3 +173,5 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+print(f"--- SETTINGS LOADED: Using storage -> {DEFAULT_FILE_STORAGE} ---")

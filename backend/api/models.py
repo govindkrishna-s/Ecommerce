@@ -77,9 +77,7 @@ class ShippingAddress(models.Model):
         return self.address
     
 class WishlistItem(models.Model):
-    """
-    A model that links a User to a Product they have wishlisted.
-    """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True)
