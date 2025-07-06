@@ -16,9 +16,11 @@ class Product(models.Model):
     @property
     def imageURL(self):
         try:
-            url=self.image.url
-        except:
-            url=''
+            url = self.image.url
+            if url.startswith('http://'):
+                url = url.replace('http://', 'https://', 1)
+        except (ValueError, AttributeError):
+            url = ''
         return url
 
     
