@@ -42,7 +42,7 @@ export default function OrderPage() {
                   </p>
                 </div>
                 <div className="text-right">
-                    <p className="text-lg font-bold">${parseFloat(order.get_cart_total).toFixed(2)}</p>
+                    <p className="text-lg font-bold">Rs {parseFloat(order.get_cart_total).toFixed(2)}</p>
                     <span className="text-sm px-2 py-1 bg-green-800 text-green-300 rounded-full">
                         {order.completed ? 'Completed' : 'Processing'}
                     </span>
@@ -54,7 +54,7 @@ export default function OrderPage() {
                 {order.orderitems.map(item => (
                     <div key={item.product.id} className="flex justify-between text-slate-300 py-1">
                         <span>{item.product.name} (x{item.quantity})</span>
-                        <span>${parseFloat(item.get_total).toFixed(2)}</span>
+                        <span>Rs {parseFloat(item.get_total).toFixed(2)}</span>
                     </div>
                 ))}
               </div>
