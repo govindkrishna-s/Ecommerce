@@ -11,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
 class ProductSerializer(serializers.ModelSerializer):
+    image = serializers.CharField(source='imageURL', read_only=True)
     class Meta:
         model=Product
         fields=['id','name', 'price', 'digital', 'image']
