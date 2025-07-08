@@ -8,38 +8,6 @@ A complete, modern e-commerce website built with a decoupled architecture using 
 
 ---
 
-## Showcase
-
-**Homepage Banner**
-![Homepage with banner and featured products](screenshots/home.png)
-
----
-
-**Product Listing**
-![Product listing page](screenshots/product.png)
-
----
-
-**Search Functionality**
-![Search results page](screenshots/search.png)
-
----
-
-**Shopping Cart**
-![Shopping cart with items and order summary](screenshots/cart.png)
-
----
-
-**Secure Checkout with Razorpay**
-![Checkout page with shipping form and order summary](screenshots/checkout.png)
-
----
-
-**User Dashboard & Order History**
-![User dashboard showing past orders](screenshots/orders.png)
-
----
-
 ## Features
 
 -   **User Authentication:** Secure user registration and login system using JSON Web Tokens (JWT) for session management.
@@ -76,7 +44,45 @@ A complete, modern e-commerce website built with a decoupled architecture using 
 ### Deployment
 -   **Backend Hosting:** Render
 -   **Frontend Hosting:** Netlify
--   **Database Hosting:** Render PostgreSQL
+-   **Database Hosting:** PostgreSQL
+
+---
+
+## Showcase
+
+**Homepage Banner**
+
+![Homepage with banner and featured products](screenshots/home.png)
+
+---
+
+**Product Listing**
+
+![Product listing page](screenshots/product.png)
+
+---
+
+**Search Functionality**
+
+![Search results page](screenshots/search.png)
+
+---
+
+**Shopping Cart**
+
+![Shopping cart with items and order summary](screenshots/cart.png)
+
+---
+
+**Secure Checkout with Razorpay**
+
+![Checkout page with shipping form and order summary](screenshots/checkout.png)
+
+---
+
+**User Dashboard & Order History**
+
+![User dashboard showing past orders](screenshots/orders.png)
 
 ---
 
