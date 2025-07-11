@@ -1,45 +1,52 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axiosConfig';
-import { useCart } from '../context/CartContext'; 
+import { useCart } from '../context/CartContext';
 
 function SignInPage() {
-  const { fetchCart } = useCart(); 
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
+  const { fetchCart } = useCart();
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const mergeCarts = async () => {
+    const guestCart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (guestCart.length > 0) {
+      console.log("Merging guest cart with backend...");
+      const mergePromises = guestCart.map(item => {
+        const itemPromises = [];
+        for (let i = 0; i < item.quantity; i++) {
+          itemPromises.push(api.post('/cart/update/', { productId: item.product.id, action: 'add' }));
+        }
+        return Promise.all(itemPromises);
+      });
+      await Promise.all(mergePromises);
+      localStorage.removeItem('cart');
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
     try {
       const response = await api.post('/token/', {
         username: formData.username,
         password: formData.password,
       });
-
-      if (response.data.access && response.data.refresh) {
-
+      if (response.data.access) {
         localStorage.setItem('accessToken', response.data.access);
         localStorage.setItem('refreshToken', response.data.refresh);
-
-        
         api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
-
+        
+        await mergeCarts();
         await fetchCart();
+        
         navigate('/');
       }
     } catch (err) {
@@ -95,5 +102,4 @@ function SignInPage() {
     </div>
   );
 }
-
 export default SignInPage;

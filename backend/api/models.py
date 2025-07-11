@@ -89,3 +89,12 @@ class WishlistItem(models.Model):
 
     def __str__(self):
         return f'{self.user.username} wishes for {self.product.name}'
+    
+class Banner(models.Model):
+
+    name = models.CharField(max_length=100, unique=True, help_text="homepage-banner")
+    image = CloudinaryField('banner_image')
+    alt_text = models.CharField(max_length=200, default="E-commerce banner")
+
+    def __str__(self):
+        return self.name

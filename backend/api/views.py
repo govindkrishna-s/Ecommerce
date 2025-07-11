@@ -3,8 +3,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView,
 from rest_framework import permissions, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.models import User,Product, Order, OrderItem, ShippingAddress, WishlistItem
-from api.serializers import ProductSerializer, OrderSerializer, UserSerializer, WishlistItemSerializer
+from api.models import User,Product, Order, OrderItem, ShippingAddress, WishlistItem, Banner
+from api.serializers import ProductSerializer, OrderSerializer, UserSerializer, WishlistItemSerializer, BannerSerializer
 import razorpay
 from django.conf import settings
 from django.db import transaction
@@ -241,3 +241,12 @@ class WishlistRemoveView(APIView):
             return Response({"status": "success", "message": "Item removed from wishlist."}, status=status.HTTP_200_OK)
         except WishlistItem.DoesNotExist:
             return Response({"error": "Item not found in wishlist."}, status=status.HTTP_404_NOT_FOUND)
+        
+@api_view(['GET'])
+def get_homepage_banner(request):
+    try:
+        banner = Banner.objects.get(name="homepage-banner")
+        serializer = BannerSerializer(banner)
+        return Response(serializer.data)
+    except Banner.DoesNotExist:
+        return Response({"error": "Homepage banner not found in database."}, status=404)

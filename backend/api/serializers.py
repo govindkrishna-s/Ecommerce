@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Product, Order, OrderItem, ShippingAddress, WishlistItem
+from .models import User, Product, Order, OrderItem, ShippingAddress, WishlistItem, Banner
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,3 +56,9 @@ class WishlistItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishlistItem
         fields = ['id', 'product']
+
+class BannerSerializer(serializers.ModelSerializer):
+    image_url = serializers.URLField(source='image.url', read_only=True)
+    class Meta:
+        model = Banner
+        fields = ['name', 'image_url', 'alt_text']

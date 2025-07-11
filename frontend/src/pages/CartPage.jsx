@@ -1,13 +1,24 @@
 import { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CartPage() {
   const { cartItems, fetchCart, cartTotal, loading, addToCart, decreaseQuantity, clearItemFromCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
+
+  const handleCheckout = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      navigate('/checkout');
+    } else {
+      alert("Please log in to proceed to checkout.");
+      navigate('/signin');
+    }
+  };
 
   if (loading && cartItems.length === 0) {
     return <div className="text-center p-10 text-white">Loading Cart...</div>
@@ -54,17 +65,15 @@ export default function CartPage() {
               <span>Total</span>
               <span>Rs {cartTotal.toFixed(2)}</span>
             </div>
-            <Link to="/checkout" className="block text-center w-full bg-cyan-600 text-white font-bold p-4 rounded-md hover:bg-cyan-700 transition">
+            <button onClick={handleCheckout} className="w-full bg-cyan-600 text-white font-bold p-4 rounded-md hover:bg-cyan-700 transition">
               Proceed to Checkout
-            </Link>
+            </button>
           </div>
         </div>
       ) : (
         <div className="text-center">
           <p className="text-xl text-slate-400">Your cart is empty.</p>
-          <Link to="/" className="mt-4 inline-block bg-cyan-600 text-white font-bold py-3 px-6 rounded-md hover:bg-cyan-700 transition">
-            Continue Shopping
-          </Link>
+          <Link to="/" className="mt-4 inline-block bg-cyan-600 text-white font-bold py-3 px-6 rounded-md hover:bg-cyan-700 transition">Continue Shopping</Link>
         </div>
       )}
     </div>

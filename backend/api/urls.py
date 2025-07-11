@@ -13,5 +13,6 @@ urlpatterns = [
     path('payment/success/', views.handle_payment_success, name='handle-payment-success'),
     path('wishlist/', views.WishlistListView.as_view(), name='get-wishlist'),
     path('wishlist/add/', views.WishlistAddView.as_view(), name='add-to-wishlist'),
-    path('wishlist/remove/', views.WishlistRemoveView.as_view(), name='remove-from-wishlist')
+    path('wishlist/remove/', views.WishlistRemoveView.as_view(), name='remove-from-wishlist'),
+    path('homepage-banner/', views.get_homepage_banner, name='get-homepage-banner')
 ]
