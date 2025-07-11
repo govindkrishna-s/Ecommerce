@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useWishlist, WishlistProvider } from './context/WishlistContext';
+import { WishlistProvider, useWishlist } from './context/WishlistContext';
 import { CartProvider, useCart } from './context/CartContext';
 import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
+import SignupPage from './pages/SignupPage';
 import OrderPage from './pages/OrderPage';
 import HomePage from './pages/HomePage';
 import Layout from './components/Layout';
@@ -16,22 +16,20 @@ function ProtectedRoute({ children }) {
   return token ? children : <Navigate to="/signin" />;
 }
 
-
 function InitialDataFetcher() {
     const { fetchCart } = useCart();
     const { fetchWishlist } = useWishlist();
     const token = localStorage.getItem('accessToken');
-
     useEffect(() => {
+
         if (token) {
             fetchCart();
             fetchWishlist();
         }
-    }, [token, fetchCart, fetchWishlist]);
+    }, [token, fetchCart, fetchWishlist]); 
 
-    return null;
+    return null; 
 }
-
 
 export default function App() {
   return (
@@ -43,7 +41,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/signin" element={<SignInPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/signup" element={<SignupPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
