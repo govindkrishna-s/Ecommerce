@@ -19,7 +19,7 @@ razorpay_client = razorpay.Client(
 class SignUpView(CreateAPIView):
     serializer_class=UserSerializer
 
-# @method_decorator(cache_page(60 * 60), name='dispatch')
+@method_decorator(cache_page(60 * 60), name='dispatch')
 class ProductListView(ListAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductSerializer
