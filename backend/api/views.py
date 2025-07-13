@@ -245,6 +245,7 @@ class WishlistRemoveView(APIView):
             return Response({"error": "Item not found in wishlist."}, status=status.HTTP_404_NOT_FOUND)
         
 @api_view(['GET'])
+@cache_page(60 * 60)
 def get_homepage_banner(request):
     try:
         banner = Banner.objects.get(name="homepage-banner")
