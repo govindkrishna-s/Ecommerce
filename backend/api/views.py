@@ -9,6 +9,8 @@ import razorpay
 from django.conf import settings
 from django.db import transaction
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 razorpay_client = razorpay.Client(
     auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
@@ -18,6 +20,7 @@ class SignUpView(CreateAPIView, ListAPIView):
     serializer_class=UserSerializer
     queryset=User.objects.all()
 
+@method_decorator(cache_page(60 * 60), name='dispatch')
 class ProductListView(ListAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductSerializer
