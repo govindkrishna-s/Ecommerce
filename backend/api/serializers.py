@@ -58,7 +58,7 @@ class WishlistItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product']
 
 class BannerSerializer(serializers.ModelSerializer):
-    image_url = serializers.URLField(source='image.url', read_only=True)
+    image_url = serializers.CharField(source='imageURL', read_only=True)
     class Meta:
         model = Banner
         fields = ['name', 'image_url', 'alt_text']

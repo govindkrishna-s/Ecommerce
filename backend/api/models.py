@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from cloudinary.models import CloudinaryField
+import cloudinary
 
 class User(AbstractUser):
     phone=models.CharField(max_length=15)
 
-    
 class Product(models.Model):
     name=models.CharField(max_length=200, null=True)
     price=models.DecimalField(max_digits=7, decimal_places=2)
@@ -15,15 +15,22 @@ class Product(models.Model):
         return self.name
     @property
     def imageURL(self):
-        try:
-            url = self.image.url
-            if url.startswith('http://'):
-                url = url.replace('http://', 'https://', 1)
-        except (ValueError, AttributeError):
-            url = ''
-        return url
+        if self.image and hasattr(self.image, 'url'):
+            try:
+                optimized_url = cloudinary.CloudinaryImage(self.image.public_id).build_url(
+                    transformation=[
+                        {'width': 800, 'height': 800, 'crop': 'limit'},
+                        {'quality': 'auto'},
+                        {'fetch_format': 'auto'}
+                    ]
+                )
+                return optimized_url
+            except Exception as e:
+                print(f"Error generating optimized URL: {e}")
+                return self.image.url
+        else:
+            return ""
 
-    
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True) 
     date_ordered = models.DateTimeField(auto_now_add=True)
@@ -101,3 +108,19 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def imageURL(self):
+        if self.image and hasattr(self.image, 'url'):
+            try:
+                optimized_url = cloudinary.CloudinaryImage(self.image.public_id).build_url(
+                    transformation=[
+                        {'width': 1920, 'crop': 'limit'},
+                        {'quality': 'auto'},
+                        {'fetch_format': 'auto'}
+                    ]
+                )
+                return optimized_url
+            except Exception:
+                return self.image.url
+        return ""
