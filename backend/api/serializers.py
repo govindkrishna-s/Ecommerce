@@ -23,6 +23,18 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = ['id', 'product', 'quantity', 'get_total']
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if not instance.product:
+            representation['product'] = {
+                'id': None,
+                'name': '[Product no longer available]',
+                'price': '0.00',
+                'digital': False,
+                'image': None
+            }
+        return representation
+
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress

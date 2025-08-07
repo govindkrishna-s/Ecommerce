@@ -73,8 +73,10 @@ class OrderItem(models.Model):
 
     @property
     def get_total(self):
-        total=self.product.price*self.quantity
-        return total
+        if self.product:
+            total = self.product.price * self.quantity
+            return total
+        return 0
 
 class ShippingAddress(models.Model):
     customer=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
