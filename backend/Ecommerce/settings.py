@@ -69,25 +69,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 
 try:
-    if 'DATABASE_URL' in os.environ:
-        DATABASES = {
-            'default': dj_database_url.config(
-                conn_max_age=600,
-                ssl_require=True
-            )
-        }
-    else:
-
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': config('DB_NAME'),
-                'USER': config('DB_USER'),
-                'PASSWORD': config('DB_PASSWORD'),
-                'HOST': config('DB_HOST'),
-                'PORT': config('DB_PORT', cast=int),
-            }
-        }
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.environ.get("DATABASE_URL")
+        )
+    }
 except:
     DATABASES = {
         'default': {
